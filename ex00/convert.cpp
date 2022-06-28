@@ -13,20 +13,16 @@ int main(int argc, char* argv[]) {
 	}
 	std::string const input = argv[1];
 	ft_literal::type const typeOfInput = ft_literal::detectType(input);
-	std::cout << typeOfInput << std::endl;
+	// std::cout << typeOfInput << std::endl;
 
-	std::cout << (int) std::numeric_limits<char>::min() << std::endl;
-	std::cout << (int) std::numeric_limits<char>::max() << std::endl;
-	std::cout << std::numeric_limits<int>::min() << std::endl;
-	std::cout << std::numeric_limits<int>::max() << std::endl;
-	std::cout << std::numeric_limits<float>::min() << std::endl;
-	std::cout << std::numeric_limits<float>::max() << std::endl;
-	std::cout << std::setprecision(9) << static_cast<float>(std::numeric_limits<int>::max()) << std::endl;
-
-	// char c;
-	// int i;
-	// float f;
-	// double d;
+	// std::cout << (int) std::numeric_limits<char>::min() << std::endl;
+	// std::cout << (int) std::numeric_limits<char>::max() << std::endl;
+	// std::cout << std::numeric_limits<int>::min() << std::endl;
+	// std::cout << std::numeric_limits<int>::max() << std::endl;
+	// std::cout << std::numeric_limits<float>::min() << std::endl;
+	// std::cout << std::numeric_limits<float>::max() << std::endl;
+	// std::cout << std::setprecision(9) << static_cast<float>(std::numeric_limits<int>::max()) << std::endl;
+	// std::cout << std::numeric_limits<double>::max() << std::endl;
 
 	switch (typeOfInput)
 	{
@@ -34,7 +30,7 @@ int main(int argc, char* argv[]) {
 		std::cerr
 		<< "Unkown input literal: '" << input
 		<< "'. Supported types are char, int, float (with -inff, +inff, nanf)"
-		<< "and double (with -inf, +inf, nan)"
+		<< " and double (with -inf, +inf, nan)"
 		<< std::endl;
 		return 1;
 		break;
@@ -49,6 +45,24 @@ int main(int argc, char* argv[]) {
 		break;
 	case ft_literal::DOUBLE:
 		ft_literal::convert(strtod(input.c_str(), NULL));
+		break;
+	case ft_literal::NAN_FLOAT:
+		ft_literal::convert(std::numeric_limits<float>::quiet_NaN());
+		break;
+	case ft_literal::INF_FLOAT:
+		ft_literal::convert(std::numeric_limits<float>::infinity());
+		break;
+	case ft_literal::N_INF_FLOAT:
+		ft_literal::convert(-std::numeric_limits<float>::infinity());
+		break;
+	case ft_literal::NAN_DOUBLE:
+		ft_literal::convert(std::numeric_limits<double>::quiet_NaN());
+		break;
+	case ft_literal::INF_DOUBLE:
+		ft_literal::convert(std::numeric_limits<double>::infinity());
+		break;
+	case ft_literal::N_INF_DOUBLE:
+		ft_literal::convert(-std::numeric_limits<double>::infinity());
 		break;
 	default:
 		break;
@@ -87,12 +101,13 @@ ft_literal::type ft_literal::detectType(std::string const& s) {
 		if (isdigit(s.front())) return ft_literal::INT;
 		return ft_literal::CHAR;
 	}
-	if (s == "nanf" || s == "-inff" || s == "+inff") {
-		return ft_literal::PSEUDO_FLOAT;
-	}
-	if (s == "nan" || s == "-inf" || s == "+inf") {
-		return ft_literal::PSEUDO_DOUBLE;
-	}
+	if (s == "nanf") return ft_literal::NAN_FLOAT;
+	if (s == "-inff") return ft_literal::N_INF_FLOAT;
+	if (s == "+inff") return ft_literal::INF_FLOAT;
+
+	if (s == "nan") return ft_literal::NAN_DOUBLE;
+	if (s == "-inf") return ft_literal::N_INF_DOUBLE;
+	if (s == "+inf") return ft_literal::INF_DOUBLE;
 
 	size_t i = 0;
 	while (i < s.length() && isspace(s.at(i))) i++; 
@@ -105,7 +120,16 @@ ft_literal::type ft_literal::detectType(std::string const& s) {
 	if (s.at(i) == '.') {
 		i++;
 		if (i == s.length()) return ft_literal::DOUBLE;
-		if (isalpha(s.at(i) && s.at(i) != 'f')) return ft_literal::UNKOWN;
+		while (i < s.length() && isdigit(s.at(i))) i++;
+		if (i == s.length()) return ft_literal::DOUBLE;
+		if (s.at(i) == 'e' || s.at(i) == 'E') {
+			i++;
+			if (s.at(i) == '+' || s.at(i) == '-') i++;
+			if (i == s.length()) return ft_literal::UNKOWN;
+			while (i < s.length() && isdigit(s.at(i))) i++;
+			if (i == s.length()) return ft_literal::DOUBLE;
+		}
+		if (isalpha(s.at(i) && s.at(i) != 'f' && s.at(i) != 'F')) return ft_literal::UNKOWN;
 		while (i < s.length() && isdigit(s.at(i))) i++;
 		if (i == s.length()) return ft_literal::DOUBLE;
 		if (i == s.length() - 1 && s.at(i) == 'f') return ft_literal::FLOAT;
@@ -120,7 +144,6 @@ void ft_literal::convert(char val) {
 	double const	d = static_cast<double>(val);
 	showChar(c);
 	showInt(i);
-	// std::cout << std::setprecision(1) << std::fixed;
 	showFloat(f);
 	showDouble(d);
 }

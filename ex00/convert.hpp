@@ -11,8 +11,12 @@ namespace ft_literal
 		INT,
 		FLOAT,
 		DOUBLE,
-		PSEUDO_FLOAT,
-		PSEUDO_DOUBLE
+		NAN_FLOAT,
+		INF_FLOAT,
+		N_INF_FLOAT,
+		NAN_DOUBLE,
+		INF_DOUBLE,
+		N_INF_DOUBLE,
 	};
 	type detectType(std::string const& s);
 	void convert(char val);
