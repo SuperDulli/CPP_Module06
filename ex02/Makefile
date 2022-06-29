@@ -1,5 +1,5 @@
 CXX		= c++
-CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow -Wno-unused
+CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow
 
 NAME	= identify
 CLASSES	= Base.cpp
