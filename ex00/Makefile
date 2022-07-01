@@ -35,7 +35,7 @@ valgrind: debug
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 test: all
-	./$(NAME)
+	./$(NAME) 42.0f
 
 $(NAME): $(OBJS) $(SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
