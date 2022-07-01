@@ -42,17 +42,17 @@ void identify(Base* p) {
 void identify(Base& p) {
 	std::cout << Color::Modifier(Color::FG_BLUE);
 	try {
-		dynamic_cast<A&>(p);
+		static_cast<void>(dynamic_cast<A&>(p));
 		std::cout << "A";
 	} catch (std::exception& e) {
 		static_cast<void>(e); // to make the compiler happy
 		try {
-			dynamic_cast<B&>(p);
+			static_cast<void>(dynamic_cast<B&>(p));
 			std::cout << "B";
 		} catch (std::exception& e2) {
 			static_cast<void>(e2); // to make the compiler happy
 			try {
-				dynamic_cast<C&>(p);
+				static_cast<void>(dynamic_cast<C&>(p));
 				std::cout << "C";
 			} catch (std::exception& e3) {
 				std::cerr << e3.what() << std::endl;
