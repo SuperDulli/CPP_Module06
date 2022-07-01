@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 	switch (typeOfInput)
 	{		
 	case ft_literal::CHAR:
-		ft_literal::convert(input.front());
+		ft_literal::convert(input.at(0));
 		break;
 	case ft_literal::INT:
 		ft_literal::convert(atoi(input.c_str()));

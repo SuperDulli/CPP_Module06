@@ -1,5 +1,5 @@
 CXX		= c++
-CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow
+CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic-errors
 
 NAME	= convert
 SRCS	= convert.cpp

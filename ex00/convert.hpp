@@ -16,7 +16,7 @@ namespace ft_literal
 		N_INF_FLOAT,
 		NAN_DOUBLE,
 		INF_DOUBLE,
-		N_INF_DOUBLE,
+		N_INF_DOUBLE
 	};
 
 	// reads the string and returns a number to indicate the type of the literal
